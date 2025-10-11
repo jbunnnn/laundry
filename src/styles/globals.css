@@ -1,0 +1,126 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ===== BASE STYLES ===== */
+@layer base {
+  body {
+    @apply antialiased text-gray-800 bg-white;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  img, svg {
+    @apply select-none max-w-full h-auto;
+  }
+
+  /* Fix untuk anchor links */
+  :target {
+    scroll-margin-top: 80px;
+  }
+}
+
+.chatbox-container {
+  @apply fixed bottom-4 right-2 sm:right-3 z-[1000] transition-all duration-300;
+  width: calc(100% - 1rem);
+  max-width: 24rem;
+  max-height: 80vh;
+}
+
+@media (min-width: 640px) {
+  .chatbox-container {
+    right: 0.75rem;
+    width: 20rem;
+  }
+}
+
+/* ===== SCROLLBAR ADJUSTMENTS ===== */
+html {
+  --scrollbar-width: 8px;
+}
+
+::-webkit-scrollbar {
+  @apply w-2 h-2;
+}
+/* ===== SMOOTH SCROLLING ===== */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px; /* Sesuaikan dengan tinggi navbar */
+}
+
+/* ===== SECTION STYLES ===== */
+.scroll-section {
+  @apply py-16 px-4;
+  scroll-margin-top: 80px; /* Offset untuk navbar fixed */
+
+  /* Animasi subtle saat discroll */
+  view-timeline-name: --section;
+  animation: fade-in linear both;
+  animation-timeline: --section;
+  animation-range: entry 20% cover 30%;
+}
+
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== MOBILE RESPONSIVE ===== */
+@media (max-width: 768px) {
+  html {
+    scroll-padding-top: 60px;
+  }
+
+  .scroll-section {
+    @apply py-12;
+    scroll-margin-top: 60px;
+  }
+
+  /* Touch target yang lebih besar */
+  button, a[href], .clickable {
+    @apply min-w-[44px] min-h-[44px];
+  }
+}
+
+/* ===== CUSTOM SCROLLBAR ===== */
+::-webkit-scrollbar {
+  @apply w-2 h-2;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-gray-100;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-blue-500 rounded-full hover:bg-blue-600;
+}
+
+/* ===== UTILITY TAMBAHAN ===== */
+/* Untuk menghindari layout shift */
+img, video {
+  @apply align-middle;
+}
+
+/* Perbaikan untuk typography */
+h1, h2, h3, h4 {
+  @apply font-bold text-balance;
+}
+
+p {
+  @apply text-pretty;
+}
+
+/* ===== PRINT STYLES ===== */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+
+  body {
+    @apply bg-white text-black;
+  }
+
+  .scroll-section {
+    @apply py-8 !important;
+    scroll-margin-top: 0 !important;
+  }
+}
