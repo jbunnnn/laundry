@@ -19,7 +19,7 @@ export default function HomePage() {
           <Services />
         </section>
         
-        <section id="cara-kerja" className="scroll-section"> {/* Pastikan hyphen */}
+        <section id="cara-kerja" className="scroll-section"> {}
           <Steps />
         </section>
         
