@@ -1,6 +1,7 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
+import testGenerateRouter from './testGenerate.js';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 
 dotenv.config();
@@ -12,7 +13,10 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-const genAI = new GoogleGenerativeAI(process.env.API_KEY);
+// route testing testgenerate.js
+app.use("/api/test", testGenerateRouter);
+
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 const model = genAI.getGenerativeModel({ model: 'models/gemini-2.5-flash' });
 
 app.post('/api/chat', async (req, res) => {
@@ -38,18 +42,11 @@ app.post('/api/chat', async (req, res) => {
 
   try {
     const result = await model.generateContent([message]);
-    const response = result.response;
-    let replyText = response.text();
-
-    // Hapus karakter *#
-  replyText = replyText.replace(/[*#]/g, '');
-
+    let replyText = result.response.text().replace(/[*#]/g, '');
     return res.json({ reply: replyText });
   } catch (err) {
     return res.status(500).json({ error: err.message });
   }
 });
 
-app.listen(PORT, () => {
-  console.log(`🚀 Server ready at http://localhost:${PORT}`);
-});
+app.listen(PORT, () => console.log(`🚀 Server ready at http://localhost:${PORT}`));
